@@ -31,33 +31,26 @@ type Inventory struct {
 	Amount    int64
 }
 
-//двадвыда
-
-// InventoryItem представляет предмет в инвентаре
 type InventoryItem struct {
 	Type     string
 	Quantity int64
 }
 
-// IncomingTransactionInfo Информация о входящей транзакции
 type IncomingTransactionInfo struct {
 	FromUser string
 	Amount   int64
 }
 
-// OutgoingTransactionInfo Информация об исходящей транзакции
 type OutgoingTransactionInfo struct {
 	ToUser string
 	Amount int64
 }
 
-// CoinHistory История транзакций
 type CoinHistory struct {
-	Received []IncomingTransactionInfo // Входящие транзакции
-	Sent     []OutgoingTransactionInfo // Исходящие транзакции
+	Received []IncomingTransactionInfo
+	Sent     []OutgoingTransactionInfo
 }
 
-// Info представляет полную информацию о пользователе
 type Info struct {
 	Coins       int64
 	Inventory   []InventoryItem

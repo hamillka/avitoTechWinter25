@@ -8,18 +8,18 @@ type InventoryItemDto struct {
 }
 
 type IncomingTransactionInfoDto struct {
-	FromUser string `json:"fromUser"` // Будет отображаться в JSON как "fromUser"
+	FromUser string `json:"fromUser"`
 	Amount   int64  `json:"amount"`
 }
 
 type OutgoingTransactionInfoDto struct {
-	ToUser string `json:"toUser"` // Будет отображаться в JSON как "toUser"
+	ToUser string `json:"toUser"`
 	Amount int64  `json:"amount"`
 }
 
 type CoinHistoryDto struct {
-	Received []IncomingTransactionInfoDto `json:"received"` // Входящие транзакции
-	Sent     []OutgoingTransactionInfoDto `json:"sent"`     // Исходящие транзакции
+	Received []IncomingTransactionInfoDto `json:"received"`
+	Sent     []OutgoingTransactionInfoDto `json:"sent"`
 }
 
 type InfoResponseDto struct {

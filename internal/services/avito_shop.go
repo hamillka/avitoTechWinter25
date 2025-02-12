@@ -58,13 +58,11 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 		return nil, err
 	}
 
-	// Получаем и обрабатываем инвентарь
 	inventory, err := as.inventoryRepo.GetInventoryByUserID(user.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	// Создаем map для подсчета количества предметов каждого типа
 	inventoryMap := make(map[string]int64)
 	for _, item := range inventory {
 		merch, err := as.merchRepo.GetMerchByID(item.MerchID)
@@ -74,7 +72,6 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 		inventoryMap[merch.Type] += item.Amount
 	}
 
-	// Преобразуем map в slice структур InventoryItem
 	var inventoryItems []serviceModels.InventoryItem
 	for itemType, quantity := range inventoryMap {
 		inventoryItems = append(inventoryItems, serviceModels.InventoryItem{
@@ -83,7 +80,6 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 		})
 	}
 
-	// Обрабатываем исходящие транзакции
 	outTransactions, err := as.transactionRepo.GetOutTransactions(user.ID)
 	if err != nil {
 		return nil, err
@@ -101,7 +97,6 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 		})
 	}
 
-	// Обрабатываем входящие транзакции
 	inTransactions, err := as.transactionRepo.GetInTransactions(user.ID)
 	if err != nil {
 		return nil, err
@@ -119,7 +114,6 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 		})
 	}
 
-	// Собираем всю информацию в единую структуру
 	info := &serviceModels.Info{
 		Coins:     user.Coins,
 		Inventory: inventoryItems,
