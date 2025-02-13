@@ -29,6 +29,19 @@ func (ph *PurchaseHandler) BuyItem(w http.ResponseWriter, r *http.Request) {
 	claims := ctx.Value("props").(jwt.MapClaims)
 	buyerName := claims["username"].(string)
 
+	if buyerName == dto.AvitoShopName {
+		ph.logger.Errorf("purchase handler: avito can't buy its own merch")
+		w.WriteHeader(http.StatusBadRequest)
+		errorDto := &dto.ErrorDto{
+			Error: "Неверный запрос",
+		}
+		err := json.NewEncoder(w).Encode(errorDto)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		return
+	}
+
 	itemName, ok := mux.Vars(r)["item"]
 	if !ok {
 		ph.logger.Errorf("purchase handler: %s", errors.New("item type extracting error"))
@@ -51,6 +64,11 @@ func (ph *PurchaseHandler) BuyItem(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			errorDto = &dto.ErrorDto{
 				Error: "Неверный запрос",
+			}
+		} else if errors.Is(err, dto.ErrNotEnoughCoins) {
+			w.WriteHeader(http.StatusBadRequest)
+			errorDto = &dto.ErrorDto{
+				Error: "Недостаточно монет для покупки",
 			}
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
