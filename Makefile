@@ -8,3 +8,6 @@ run:
 
 stop:
 	docker-compose down
+
+linter:
+	golangci-lint run ./... --config=./.golangci.yaml
