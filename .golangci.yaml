@@ -245,30 +245,21 @@ linters:
   enable-all: true
   disable:
     - contextcheck
-    - deadcode
     - depguard
     - dupl
-    - exhaustivestruct
     - exhaustruct
     - forcetypeassert
-    - golint
-    - gomnd
     - gomoddirectives
-    - ifshort
-    - interfacer
     - maintidx
-    - maligned
+    - mnd
     - nlreturn
     - nonamedreturns
-    - nosnakecase
     - paralleltest
-    - scopelint
     - sloglint
-    - structcheck
     - testableexamples
-    - varcheck
     - varnamelen
     - gocritic
+    - gochecknoglobals
     - wrapcheck
     - wsl
     - zerologlint
@@ -281,7 +272,6 @@ linters:
     - gosec
     - nestif
     - cyclop
-    - execinquery
     - staticcheck
     - wastedassign
     - rowserrcheck

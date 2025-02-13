@@ -26,7 +26,8 @@ const (
 )
 
 const (
-	AvitoShopID = 0
+	AvitoShopID  = 0
+	DefaultCoins = 1000
 )
 
 func NewUserRepository(db *sqlx.DB) *UserRepository {
@@ -62,7 +63,7 @@ func (ur *UserRepository) CreateUser(username, password string) (models.User, er
 		ID:       id,
 		Username: username,
 		Password: password,
-		Coins:    1000,
+		Coins:    DefaultCoins,
 	}, nil
 }
 

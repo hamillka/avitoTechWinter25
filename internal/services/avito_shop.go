@@ -73,11 +73,11 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 		inventoryMap[merch.Type] += item.Amount
 	}
 
-	var inventoryItems []serviceModels.InventoryItem
+	inventoryItems := make([]serviceModels.InventoryItem, 0)
 	for itemType, quantity := range inventoryMap {
 		inventoryItems = append(inventoryItems, serviceModels.InventoryItem{
 			Type:     itemType,
-			Quantity: int64(quantity),
+			Quantity: quantity,
 		})
 	}
 
@@ -86,7 +86,7 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 		return nil, err
 	}
 
-	var sentTransactions []serviceModels.OutgoingTransactionInfo
+	sentTransactions := make([]serviceModels.OutgoingTransactionInfo, 0)
 	for _, tx := range outTransactions {
 		receiver, err := as.userRepo.GetUserByID(tx.ReceiverID)
 		if err != nil {
@@ -103,7 +103,7 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 		return nil, err
 	}
 
-	var receivedTransactions []serviceModels.IncomingTransactionInfo
+	receivedTransactions := make([]serviceModels.IncomingTransactionInfo, 0)
 	for _, tx := range inTransactions {
 		sender, err := as.userRepo.GetUserByID(tx.SenderID)
 		if err != nil {
@@ -127,7 +127,7 @@ func (as *AvitoShopService) GetInfo(username string) (*serviceModels.Info, error
 	return info, nil
 }
 
-func (as *AvitoShopService) SendCoin(sender string, receiver string, amount int64) error {
+func (as *AvitoShopService) SendCoin(sender, receiver string, amount int64) error {
 	senderUser, err := as.userRepo.GetUserByUsername(sender)
 	if err != nil {
 		return err
