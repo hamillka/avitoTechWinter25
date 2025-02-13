@@ -78,7 +78,6 @@ func (ah *AuthHandler) Auth(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-
 }
 
 func createToken(username string) (string, error) {

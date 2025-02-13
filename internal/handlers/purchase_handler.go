@@ -44,7 +44,7 @@ func (ph *PurchaseHandler) BuyItem(w http.ResponseWriter, r *http.Request) {
 
 	itemName, ok := mux.Vars(r)["item"]
 	if !ok {
-		ph.logger.Errorf("purchase handler: %s", errors.New("item type extracting error"))
+		ph.logger.Errorf("purchase handler: %s", dto.ErrPathVarExtracting)
 		w.WriteHeader(http.StatusBadRequest)
 		errorDto := &dto.ErrorDto{
 			Error: "Неверный запрос",
