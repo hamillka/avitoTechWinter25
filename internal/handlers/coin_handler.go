@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/hamillka/avitoTechWinter25/internal/handlers/dto"
+	"github.com/hamillka/avitoTechWinter25/internal/repositories"
 	"go.uber.org/zap"
 )
 
@@ -58,6 +60,28 @@ func (ch *CoinHandler) SendCoin(w http.ResponseWriter, r *http.Request) {
 
 	err = ch.service.SendCoin(fromUser, sendCoinReqDto.ToUser, sendCoinReqDto.Amount)
 	if err != nil {
+		ch.logger.Errorf("coin handler: send coin service method: %s", err)
+		var errorDto *dto.ErrorDto
+		if errors.Is(err, repositories.ErrRecordNotFound) {
+			w.WriteHeader(http.StatusBadRequest)
+			errorDto = &dto.ErrorDto{
+				Error: "Неверный запрос",
+			}
+		} else if errors.Is(err, dto.ErrNotEnoughCoins) {
+			w.WriteHeader(http.StatusBadRequest)
+			errorDto = &dto.ErrorDto{
+				Error: "Недостаточно монет для перевода",
+			}
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+			errorDto = &dto.ErrorDto{
+				Error: "Внутренняя ошибка сервера",
+			}
+		}
+		err = json.NewEncoder(w).Encode(errorDto)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
 		return
 	}
 

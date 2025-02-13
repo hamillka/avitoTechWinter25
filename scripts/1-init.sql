@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS users
     coins    INT DEFAULT 1000 CHECK (coins >= 0)
 );
 
+CREATE INDEX idx_username_password ON users (username, password);
+
 CREATE TABLE IF NOT EXISTS transactions
 (
     id          SERIAL PRIMARY KEY,
@@ -19,6 +21,9 @@ CREATE TABLE IF NOT EXISTS transactions
     FOREIGN KEY (receiver_id) REFERENCES users (id) ON DELETE CASCADE,
     amount      INT CHECK (amount > 0)
 );
+
+CREATE INDEX idx_sender_id ON transactions (sender_id);
+CREATE INDEX idx_receiver_id ON transactions (receiver_id);
 
 CREATE TABLE IF NOT EXISTS merch
 (
@@ -37,10 +42,12 @@ CREATE TABLE IF NOT EXISTS inventory
     amount   INT CHECK (amount > 0)
 );
 
-INSERT INTO users
-VALUES (0, 'AvitoShop', 'AvitoPassword');
+CREATE INDEX idx_inventory_user ON inventory (user_id);
 
-INSERT INTO merch
+INSERT INTO avito_shop_service.public.users
+VALUES (0, 'AvitoShop', 'AvitoPassword', 0);
+
+INSERT INTO avito_shop_service.public.merch
 VALUES (1, 't-shirt', 80),
        (2, 'cup', 20),
        (3, 'book', 50),

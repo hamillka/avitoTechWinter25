@@ -3,6 +3,7 @@ package services
 import (
 	"errors"
 
+	"github.com/hamillka/avitoTechWinter25/internal/handlers/dto"
 	"github.com/hamillka/avitoTechWinter25/internal/repositories"
 	repoModels "github.com/hamillka/avitoTechWinter25/internal/repositories/models"
 	serviceModels "github.com/hamillka/avitoTechWinter25/internal/services/models"
@@ -138,7 +139,7 @@ func (as *AvitoShopService) SendCoin(sender string, receiver string, amount int6
 	}
 
 	if senderUser.Coins < amount {
-		return errors.New("недостаточно средств для перевода")
+		return dto.ErrNotEnoughCoins
 	}
 
 	err = as.userRepo.TransferCoins(senderUser.ID, receiverUser.ID, amount)
@@ -158,6 +159,10 @@ func (as *AvitoShopService) BuyItem(buyerName, itemName string) error {
 	buyerUser, err := as.userRepo.GetUserByUsername(buyerName)
 	if err != nil {
 		return err
+	}
+
+	if merch.Cost > buyerUser.Coins {
+		return dto.ErrNotEnoughCoins
 	}
 
 	err = as.userRepo.BuyItemFromAvitoShop(buyerUser.ID, merch.ID, merch.Cost)
