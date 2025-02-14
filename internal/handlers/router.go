@@ -2,12 +2,15 @@ package handlers
 
 import (
 	"github.com/gorilla/mux"
+	_ "github.com/hamillka/avitoTechWinter25/api"
 	"github.com/hamillka/avitoTechWinter25/internal/handlers/middlewares"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"go.uber.org/zap"
 )
 
 func Router(s AvitoShopService, logger *zap.SugaredLogger) *mux.Router {
 	router := mux.NewRouter()
+	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 	auth := router.PathPrefix("").Subrouter()
 	api := router.PathPrefix("/api").Subrouter()
 

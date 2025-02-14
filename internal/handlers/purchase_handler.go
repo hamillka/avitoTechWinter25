@@ -24,6 +24,22 @@ func NewPurchaseHandler(s AvitoShopService, logger *zap.SugaredLogger) *Purchase
 	}
 }
 
+// BuyItem godoc
+//
+//		@Summary		Покупка мерча за монетки
+//		@Description	Купить мерч Авито за монетки
+//		@ID				buy-item-by-coins
+//		@Tags			purchase
+//		@Accept			json
+//		@Produce		json
+//		@Param 			item	path		string			true		"Тип предмета"
+//
+//		@Success		200	    										"Успешный ответ"
+//		@Failure		400	    {object}	dto.ErrorDto				"Неверный запрос or Недостаточно монет для покупки"
+//		@Failure		401	    {object}	dto.ErrorDto				"Неавторизован"
+//		@Failure		500	    {object}	dto.ErrorDto				"Внутренняя ошибка сервера"
+//	    @Security		ApiKeyAuth
+//		@Router			/api/buy/{item} [get]
 func (ph *PurchaseHandler) BuyItem(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	claims := ctx.Value("props").(jwt.MapClaims)

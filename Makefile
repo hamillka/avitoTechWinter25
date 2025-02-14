@@ -22,9 +22,13 @@ units-coverage:
 
 e2e-w-coverage:
 	make run
+	sleep 10
 	go test ./e2e_tests -count=1 -coverpkg=./...
 	make stop
 
 all_tests:
 	make units
 	make e2e-w-coverage
+
+swag-gen:
+	swag init -g ../../cmd/avito-shop-service/main.go -o ./api -d ./internal/handlers
