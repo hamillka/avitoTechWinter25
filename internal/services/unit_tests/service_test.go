@@ -348,28 +348,6 @@ func (s *ServiceSuite) TestGetInfoInventoryError(t provider.T) {
 	assert.Nil(t, info)
 }
 
-//func (s *ServiceSuite) TestGetInfoMerchError(t provider.T) {
-//	t.Title("Get info error: merch not found")
-//	t.Tags("info", "error")
-//
-//	fixture := NewServiceTestFixture(t)
-//
-//	fixture.userRepo.EXPECT().
-//		GetUserByUsername(fixture.user.Username).
-//		Return(fixture.user, nil)
-//	fixture.inventRepo.EXPECT().
-//		GetInventoryByUserID(fixture.user.ID).
-//		Return([]*models.Inventory{&fixture.inventory}, nil)
-//	fixture.merchRepo.EXPECT().
-//		GetMerchByID(fixture.merch.ID).
-//		Return(models.Merch{}, repositories.ErrRecordNotFound)
-//
-//	info, err := fixture.service.GetInfo(fixture.user.Username)
-//
-//	require.Error(t, err)
-//	assert.Nil(t, info)
-//}
-
 func (s *ServiceSuite) TestGetInfoOutgoingTransactionError(t provider.T) {
 	t.Title("Get info error: out transaction reading error")
 	t.Tags("info", "error")
@@ -394,34 +372,6 @@ func (s *ServiceSuite) TestGetInfoOutgoingTransactionError(t provider.T) {
 	require.Error(t, err)
 	assert.Nil(t, info)
 }
-
-//func (s *ServiceSuite) TestGetInfoGetUserError(t provider.T) {
-//	t.Title("Get info error: get user by id error")
-//	t.Tags("info", "error")
-//
-//	fixture := NewServiceTestFixture(t)
-//
-//	fixture.userRepo.EXPECT().
-//		GetUserByUsername(fixture.user.Username).
-//		Return(fixture.user, nil)
-//	fixture.inventRepo.EXPECT().
-//		GetInventoryByUserID(fixture.user.ID).
-//		Return([]*models.Inventory{&fixture.inventory}, nil)
-//	fixture.merchRepo.EXPECT().
-//		GetMerchByID(fixture.merch.ID).
-//		Return(fixture.merch, nil)
-//	fixture.txRepo.EXPECT().
-//		GetOutTransactions(fixture.user.ID).
-//		Return([]*models.Transaction{&fixture.transaction}, nil)
-//	fixture.userRepo.EXPECT().
-//		GetUserByID(fixture.user.ID).
-//		Return(models.User{}, repositories.ErrRecordNotFound)
-//
-//	info, err := fixture.service.GetInfo(fixture.user.Username)
-//
-//	require.Error(t, err)
-//	assert.Nil(t, info)
-//}
 
 func (s *ServiceSuite) TestGetInfoIncomingTransactionError(t provider.T) {
 	t.Title("Get info error: in transaction reading error")
