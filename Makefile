@@ -1,4 +1,5 @@
 APP=avito-shop-service
+.PHONY: linter
 
 build:
 	docker-compose build $(APP)
@@ -11,3 +12,6 @@ stop:
 
 linter:
 	golangci-lint run ./... --config=./.golangci.yaml
+
+coverage:
+	go test ./... -v -coverpkg=./...

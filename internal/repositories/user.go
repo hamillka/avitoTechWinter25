@@ -16,7 +16,7 @@ const (
 	createUser                = "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id"
 	getUserByID               = "SELECT * FROM users WHERE id = $1"
 	getUserByUsernamePassword = "SELECT * FROM users WHERE username = $1 AND password = $2"
-	getUser                   = "SELECT * FROM users WHERE username = $1"
+	getUserByUsername         = "SELECT * FROM users WHERE username = $1"
 	subtractCoins             = "UPDATE users SET coins = coins - $1 WHERE id = $2"
 	addCoins                  = "UPDATE users SET coins = coins + $1 WHERE id = $2"
 	addTransaction            = "INSERT INTO transactions (sender_id, receiver_id, amount) VALUES ($1, $2, $3) RETURNING id"
@@ -69,7 +69,7 @@ func (ur *UserRepository) CreateUser(username, password string) (models.User, er
 
 func (ur *UserRepository) GetUserByUsername(username string) (models.User, error) {
 	var user models.User
-	err := ur.db.QueryRow(getUser, username).Scan(
+	err := ur.db.QueryRow(getUserByUsername, username).Scan(
 		&user.ID,
 		&user.Username,
 		&user.Password,
