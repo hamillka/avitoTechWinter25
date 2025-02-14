@@ -2,11 +2,11 @@ definitions:
   dto.AuthRequestDto:
     description: Информация о пользователе для входа или регистрации
     properties:
-      password:
-        description: Пароль
-        type: string
       username:
         description: Имя пользователя
+        type: string
+      password:
+        description: Пароль
         type: string
     type: object
   dto.AuthResponseDto:
@@ -40,21 +40,17 @@ definitions:
   dto.IncomingTransactionInfoDto:
     description: Информация о входящих транзакциях пользователя
     properties:
-      amount:
-        description: Количество полученных монет
-        type: integer
       fromUser:
         description: Отправитель
         type: string
+      amount:
+        description: Количество полученных монет
+        type: integer
     type: object
   dto.InfoResponseDto:
     description: 'Полная информация о пользователе: количество монет, предметы инвентаря
       и история перемещения монет'
     properties:
-      coinHistory:
-        allOf:
-        - $ref: '#/definitions/dto.CoinHistoryDto'
-        description: История перемещения монет
       coins:
         description: Количество монет
         type: integer
@@ -63,36 +59,40 @@ definitions:
         items:
           $ref: '#/definitions/dto.InventoryItemDto'
         type: array
+      coinHistory:
+        allOf:
+        - $ref: '#/definitions/dto.CoinHistoryDto'
+        description: История перемещения монет
     type: object
   dto.InventoryItemDto:
     description: Информация о предмете инвентаря
     properties:
-      quantity:
-        description: Количество мерча данного типа в инвентаре
-        type: integer
       type:
         description: Тип мерча
         type: string
+      quantity:
+        description: Количество мерча данного типа в инвентаре
+        type: integer
     type: object
   dto.OutgoingTransactionInfoDto:
     description: Информация о исходящих транзакциях пользователя
     properties:
-      amount:
-        description: Количество отправленных монет
-        type: integer
       toUser:
         description: Получатель
         type: string
+      amount:
+        description: Количество отправленных монет
+        type: integer
     type: object
   dto.SendCoinRequestDto:
     description: Информация о получателе и количестве монет при переводе
     properties:
-      amount:
-        description: количество переводимых монет
-        type: integer
       toUser:
         description: имя пользователя-получателя
         type: string
+      amount:
+        description: количество переводимых монет
+        type: integer
     type: object
 info:
   contact: {}
