@@ -7,3 +7,9 @@ repos:
         language: golang
         types: [go]
 
+      - id: tests
+        name: unit tests
+        entry: make coverage
+        language: system
+        types: [go]
+
