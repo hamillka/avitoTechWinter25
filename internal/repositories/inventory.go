@@ -18,14 +18,14 @@ func NewInventoryRepository(db *sqlx.DB) *InventoryRepository {
 }
 
 func (ir *InventoryRepository) GetInventoryByUserID(userID int64) ([]*models.Inventory, error) {
-	var inventory []*models.Inventory
+	inventory := make([]*models.Inventory, 0)
 	rows, err := ir.db.Query(getUserInventory, userID)
 	if err != nil {
-		return nil, err
+		return inventory, err
 	}
 
 	if err = rows.Err(); err != nil {
-		return nil, ErrDatabaseReadingError
+		return inventory, ErrDatabaseReadingError
 	}
 
 	for rows.Next() {

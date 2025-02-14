@@ -19,11 +19,11 @@ func NewTransactionsRepository(db *sqlx.DB) *TransactionsRepository {
 }
 
 func (tr *TransactionsRepository) GetOutTransactions(userID int64) ([]*models.Transaction, error) {
-	var transactions []*models.Transaction
+	transactions := make([]*models.Transaction, 0)
 	rows, _ := tr.db.Query(getOutTransactionsByUID, userID)
 
 	if err := rows.Err(); err != nil {
-		return nil, ErrDatabaseReadingError
+		return transactions, ErrDatabaseReadingError
 	}
 
 	for rows.Next() {
@@ -44,11 +44,11 @@ func (tr *TransactionsRepository) GetOutTransactions(userID int64) ([]*models.Tr
 }
 
 func (tr *TransactionsRepository) GetInTransactions(userID int64) ([]*models.Transaction, error) {
-	var transactions []*models.Transaction
+	transactions := make([]*models.Transaction, 0)
 	rows, _ := tr.db.Query(getInTransactionsByUID, userID)
 
 	if err := rows.Err(); err != nil {
-		return nil, ErrDatabaseReadingError
+		return transactions, ErrDatabaseReadingError
 	}
 
 	for rows.Next() {
