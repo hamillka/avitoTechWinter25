@@ -9,5 +9,5 @@ go.work
 
 .DS_Store
 
-allure_results
+internal/services/unit_tests/allure-results/
 
