@@ -33,5 +33,5 @@ jobs:
 
       - name: Run unit tests
         run: |
-          go test ./internal/services/unit_test/ -short
-          go test ./internal/repositories/unit_test/ -short
+          go test ./internal/services/unit_tests/ -short
+          go test ./internal/repositories/unit_tests/ -short
