@@ -16,3 +16,22 @@ jobs:
         with:
           version: v1.64
           args: --config=.golangci.yaml ./...
+
+  unit_tests:
+    name: Unit Tests
+    runs-on: ubuntu-22.04
+    container:
+      image: golang:1.23
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23
+
+      - name: Run unit tests
+        run: |
+          go test ./internal/services/unit_test/ -short
+          go test ./internal/repositories/unit_test/ -short
