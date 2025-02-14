@@ -264,6 +264,7 @@ linters:
     - wsl
     - zerologlint
     - tagliatelle
+    - testpackage
     - govet
     - funlen
     - gocognit

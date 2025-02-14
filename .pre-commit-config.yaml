@@ -8,8 +8,7 @@ repos:
         types: [go]
 
       - id: tests
-        name: unit tests
-        entry: make coverage
+        name: unit & e2e tests
+        entry: make all_tests
         language: system
         types: [go]
-
