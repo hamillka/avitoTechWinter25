@@ -11,3 +11,6 @@ stop:
 
 linter:
 	golangci-lint run ./... --config=./.golangci.yaml
+
+coverage:
+	go test ./... -v -coverpkg=./...
