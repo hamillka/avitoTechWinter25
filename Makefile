@@ -1,4 +1,5 @@
 APP=avito-shop-service
+.PHONY: linter
 
 build:
 	docker-compose build $(APP)
