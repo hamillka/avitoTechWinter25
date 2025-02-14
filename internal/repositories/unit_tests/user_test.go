@@ -9,6 +9,7 @@ import (
 	"github.com/hamillka/avitoTechWinter25/internal/repositories/models"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestUserRepository_GetUserByUsernamePassword(t *testing.T) {
@@ -56,7 +57,7 @@ func TestUserRepository_GetUserByUsernamePassword(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			db, mock, err := sqlmock.New()
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			defer db.Close()
 
 			sqlxDB := sqlx.NewDb(db, "sqlmock")
@@ -68,14 +69,14 @@ func TestUserRepository_GetUserByUsernamePassword(t *testing.T) {
 			result, err := repo.GetUserByUsernamePassword(tt.username, tt.password)
 
 			if tt.expectedErr != nil {
-				assert.Error(t, err)
+				require.Error(t, err)
 				assert.Equal(t, tt.expectedErr, err)
 			} else {
-				assert.NoError(t, err)
+				require.NoError(t, err)
 				assert.Equal(t, tt.expected, result)
 			}
 
-			assert.NoError(t, mock.ExpectationsWereMet())
+			require.NoError(t, mock.ExpectationsWereMet())
 		})
 	}
 }
@@ -124,7 +125,7 @@ func TestUserRepository_CreateUser(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			db, mock, err := sqlmock.New()
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			defer db.Close()
 
 			sqlxDB := sqlx.NewDb(db, "sqlmock")
@@ -136,14 +137,14 @@ func TestUserRepository_CreateUser(t *testing.T) {
 			result, err := repo.CreateUser(tt.username, tt.password)
 
 			if tt.expectedErr != nil {
-				assert.Error(t, err)
+				require.Error(t, err)
 				assert.Equal(t, tt.expectedErr, err)
 			} else {
-				assert.NoError(t, err)
+				require.NoError(t, err)
 				assert.Equal(t, tt.expected, result)
 			}
 
-			assert.NoError(t, mock.ExpectationsWereMet())
+			require.NoError(t, mock.ExpectationsWereMet())
 		})
 	}
 }
@@ -196,7 +197,7 @@ func TestUserRepository_TransferCoins(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			db, mock, err := sqlmock.New()
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			defer db.Close()
 
 			sqlxDB := sqlx.NewDb(db, "sqlmock")
@@ -208,13 +209,13 @@ func TestUserRepository_TransferCoins(t *testing.T) {
 			err = repo.TransferCoins(tt.senderID, tt.receiverID, tt.amount)
 
 			if tt.expectedErr != nil {
-				assert.Error(t, err)
+				require.Error(t, err)
 				assert.Equal(t, tt.expectedErr, err)
 			} else {
-				assert.NoError(t, err)
+				require.NoError(t, err)
 			}
 
-			assert.NoError(t, mock.ExpectationsWereMet())
+			require.NoError(t, mock.ExpectationsWereMet())
 		})
 	}
 }
@@ -285,7 +286,7 @@ func TestUserRepository_BuyItemFromAvitoShop(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			db, mock, err := sqlmock.New()
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			defer db.Close()
 
 			sqlxDB := sqlx.NewDb(db, "sqlmock")
@@ -297,13 +298,13 @@ func TestUserRepository_BuyItemFromAvitoShop(t *testing.T) {
 			err = repo.BuyItemFromAvitoShop(tt.buyerID, tt.itemID, tt.itemCost)
 
 			if tt.expectedErr != nil {
-				assert.Error(t, err)
+				require.Error(t, err)
 				assert.Equal(t, tt.expectedErr, err)
 			} else {
-				assert.NoError(t, err)
+				require.NoError(t, err)
 			}
 
-			assert.NoError(t, mock.ExpectationsWereMet())
+			require.NoError(t, mock.ExpectationsWereMet())
 		})
 	}
 }

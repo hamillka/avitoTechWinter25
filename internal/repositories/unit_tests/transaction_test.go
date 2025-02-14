@@ -8,6 +8,7 @@ import (
 	"github.com/hamillka/avitoTechWinter25/internal/repositories/models"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestTransactionsRepository_GetOutTransactions(t *testing.T) {
@@ -65,7 +66,7 @@ func TestTransactionsRepository_GetOutTransactions(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			db, mock, err := sqlmock.New()
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			defer db.Close()
 
 			sqlxDB := sqlx.NewDb(db, "sqlmock")
@@ -77,14 +78,14 @@ func TestTransactionsRepository_GetOutTransactions(t *testing.T) {
 			result, err := repo.GetOutTransactions(tt.userID)
 
 			if tt.expectedErr != nil {
-				assert.Error(t, err)
+				require.Error(t, err)
 				assert.Equal(t, tt.expectedErr, err)
 			} else {
-				assert.NoError(t, err)
+				require.NoError(t, err)
 				assert.Equal(t, tt.expected, result)
 			}
 
-			assert.NoError(t, mock.ExpectationsWereMet())
+			require.NoError(t, mock.ExpectationsWereMet())
 		})
 	}
 }
@@ -144,7 +145,7 @@ func TestTransactionsRepository_GetInTransactions(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			db, mock, err := sqlmock.New()
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			defer db.Close()
 
 			sqlxDB := sqlx.NewDb(db, "sqlmock")
@@ -156,14 +157,14 @@ func TestTransactionsRepository_GetInTransactions(t *testing.T) {
 			result, err := repo.GetInTransactions(tt.userID)
 
 			if tt.expectedErr != nil {
-				assert.Error(t, err)
+				require.Error(t, err)
 				assert.Equal(t, tt.expectedErr, err)
 			} else {
-				assert.NoError(t, err)
+				require.NoError(t, err)
 				assert.Equal(t, tt.expected, result)
 			}
 
-			assert.NoError(t, mock.ExpectationsWereMet())
+			require.NoError(t, mock.ExpectationsWereMet())
 		})
 	}
 }
