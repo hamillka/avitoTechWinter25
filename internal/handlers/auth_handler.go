@@ -23,6 +23,22 @@ func NewAuthHandler(s AvitoShopService, logger *zap.SugaredLogger) *AuthHandler 
 	}
 }
 
+// Auth godoc
+//
+//		@Summary		Регистрация и вход в систему
+//		@Description	Войти в систему по логину и паролю или выполнить регистрацию
+//		@ID				auth-by-username-password
+//		@Tags			auth
+//		@Accept			json
+//		@Produce		json
+//		@Param 			Auth	body	dto.AuthRequestDto		true	"Информация о пользователе"
+//
+//		@Success		200	    {object} 	dto.AuthResponseDto			"Успешный ответ"
+//		@Failure		400	    {object}	dto.ErrorDto				"Неверный запрос"
+//		@Failure		401	    {object}	dto.ErrorDto				"Неавторизован"
+//		@Failure		500	    {object}	dto.ErrorDto				"Внутренняя ошибка сервера"
+//	    @Security		ApiKeyAuth
+//		@Router			/api/auth [post]
 func (ah *AuthHandler) Auth(w http.ResponseWriter, r *http.Request) {
 	var authReqDto dto.AuthRequestDto
 

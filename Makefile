@@ -28,3 +28,6 @@ e2e-w-coverage:
 all_tests:
 	make units
 	make e2e-w-coverage
+
+swag-gen:
+	swag init -g ../../cmd/avito-shop-service/main.go -o ./api -d ./internal/handlers

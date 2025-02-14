@@ -2,8 +2,10 @@ package dto
 
 import "errors"
 
+// ErrorDto model info
+// @Description Информация об ошибке (DTO)
 type ErrorDto struct {
-	Error string `json:"error"`
+	Error string `json:"error"` // Ошибка
 }
 
 var (

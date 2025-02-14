@@ -1,0 +1,246 @@
+definitions:
+  dto.AuthRequestDto:
+    description: Информация о пользователе для входа или регистрации
+    properties:
+      password:
+        description: Пароль
+        type: string
+      username:
+        description: Имя пользователя
+        type: string
+    type: object
+  dto.AuthResponseDto:
+    description: JWT-токен пользователя при входе
+    properties:
+      token:
+        description: JWT-токен
+        type: string
+    type: object
+  dto.CoinHistoryDto:
+    description: Объединенная информация о всех транзакциях пользователя
+    properties:
+      received:
+        description: Входящие транзакции
+        items:
+          $ref: '#/definitions/dto.IncomingTransactionInfoDto'
+        type: array
+      sent:
+        description: Исходящие транзакции
+        items:
+          $ref: '#/definitions/dto.OutgoingTransactionInfoDto'
+        type: array
+    type: object
+  dto.ErrorDto:
+    description: Информация об ошибке (DTO)
+    properties:
+      error:
+        description: Ошибка
+        type: string
+    type: object
+  dto.IncomingTransactionInfoDto:
+    description: Информация о входящих транзакциях пользователя
+    properties:
+      amount:
+        description: Количество полученных монет
+        type: integer
+      fromUser:
+        description: Отправитель
+        type: string
+    type: object
+  dto.InfoResponseDto:
+    description: 'Полная информация о пользователе: количество монет, предметы инвентаря
+      и история перемещения монет'
+    properties:
+      coinHistory:
+        allOf:
+        - $ref: '#/definitions/dto.CoinHistoryDto'
+        description: История перемещения монет
+      coins:
+        description: Количество монет
+        type: integer
+      inventory:
+        description: Инвентарь
+        items:
+          $ref: '#/definitions/dto.InventoryItemDto'
+        type: array
+    type: object
+  dto.InventoryItemDto:
+    description: Информация о предмете инвентаря
+    properties:
+      quantity:
+        description: Количество мерча данного типа в инвентаре
+        type: integer
+      type:
+        description: Тип мерча
+        type: string
+    type: object
+  dto.OutgoingTransactionInfoDto:
+    description: Информация о исходящих транзакциях пользователя
+    properties:
+      amount:
+        description: Количество отправленных монет
+        type: integer
+      toUser:
+        description: Получатель
+        type: string
+    type: object
+  dto.SendCoinRequestDto:
+    description: Информация о получателе и количестве монет при переводе
+    properties:
+      amount:
+        description: количество переводимых монет
+        type: integer
+      toUser:
+        description: имя пользователя-получателя
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Avito Merch Shop Service
+  title: Avito Shop Service
+  version: "1.0"
+paths:
+  /api/auth:
+    post:
+      consumes:
+      - application/json
+      description: Войти в систему по логину и паролю или выполнить регистрацию
+      operationId: auth-by-username-password
+      parameters:
+      - description: Информация о пользователе
+        in: body
+        name: Auth
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthRequestDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ
+          schema:
+            $ref: '#/definitions/dto.AuthResponseDto'
+        "400":
+          description: Неверный запрос
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+        "401":
+          description: Неавторизован
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+      security:
+      - ApiKeyAuth: []
+      summary: Регистрация и вход в систему
+      tags:
+      - auth
+  /api/buy/{item}:
+    get:
+      consumes:
+      - application/json
+      description: Купить мерч Авито за монетки
+      operationId: buy-item-by-coins
+      parameters:
+      - description: Тип предмета
+        in: path
+        name: item
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ
+        "400":
+          description: Неверный запрос or Недостаточно монет для покупки
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+        "401":
+          description: Неавторизован
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+      security:
+      - ApiKeyAuth: []
+      summary: Покупка мерча за монетки
+      tags:
+      - purchase
+  /api/info:
+    get:
+      consumes:
+      - application/json
+      description: Получить информацию об остатке монет, инвентаре и истории переводов
+        конкретного пользователя
+      operationId: get-user-info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ
+          schema:
+            $ref: '#/definitions/dto.InfoResponseDto'
+        "400":
+          description: Неверный запрос
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+        "401":
+          description: Неавторизован
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+      security:
+      - ApiKeyAuth: []
+      summary: Получение информации о пользователе
+      tags:
+      - info
+  /api/sendCoin:
+    post:
+      consumes:
+      - application/json
+      description: Отправить пользователю монеты по его username
+      operationId: send-coin-to-user-by-username
+      parameters:
+      - description: Информация о пользователе и количество отправляемых монет
+        in: body
+        name: SendCoin
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SendCoinRequestDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ
+        "400":
+          description: Неверный запрос or Недостаточно монет для перевода
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+        "401":
+          description: Неавторизован
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/dto.ErrorDto'
+      security:
+      - ApiKeyAuth: []
+      summary: Отправка монет другому пользователю
+      tags:
+      - coin
+securityDefinitions:
+  ApiKeyAuth:
+    description: Description for what is this security definition being used
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

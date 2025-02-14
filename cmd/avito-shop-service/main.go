@@ -11,6 +11,14 @@ import (
 	"github.com/hamillka/avitoTechWinter25/internal/services"
 )
 
+// @title Avito Shop Service
+// @version 1.0
+// @description Avito Merch Shop Service
+//
+//	@securityDefinitions.apikey	ApiKeyAuth
+//	@in							header
+//	@name						Authorization
+//	@description				Description for what is this security definition being used
 func main() {
 	config, err := cfg.New()
 	logger := logger.CreateLogger(config.Log)

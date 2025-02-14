@@ -23,6 +23,22 @@ func NewCoinHandler(s AvitoShopService, logger *zap.SugaredLogger) *CoinHandler 
 	}
 }
 
+// SendCoin godoc
+//
+//		@Summary		Отправка монет другому пользователю
+//		@Description	Отправить пользователю монеты по его username
+//		@ID				send-coin-to-user-by-username
+//		@Tags			coin
+//		@Accept			json
+//		@Produce		json
+//		@Param 			SendCoin	body	dto.SendCoinRequestDto		true	"Информация о пользователе и количество отправляемых монет"
+//
+//		@Success		200												"Успешный ответ"
+//		@Failure		400	    {object}	dto.ErrorDto				"Неверный запрос or Недостаточно монет для перевода"
+//		@Failure		401	    {object}	dto.ErrorDto				"Неавторизован"
+//		@Failure		500	    {object}	dto.ErrorDto				"Внутренняя ошибка сервера"
+//	    @Security		ApiKeyAuth
+//		@Router			/api/sendCoin [post]
 func (ch *CoinHandler) SendCoin(w http.ResponseWriter, r *http.Request) {
 	var sendCoinReqDto dto.SendCoinRequestDto
 
