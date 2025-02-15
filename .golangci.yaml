@@ -253,6 +253,7 @@ linters:
     - maintidx
     - mnd
     - nlreturn
+    - intrange
     - nonamedreturns
     - paralleltest
     - sloglint

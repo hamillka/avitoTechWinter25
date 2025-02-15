@@ -11,3 +11,6 @@ go.work
 
 internal/services/unit_tests/allure-results/
 
+node_modules
+package-lock.json
+package.json
