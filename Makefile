@@ -22,7 +22,7 @@ units-coverage:
 
 e2e-w-coverage:
 	make run
-	sleep 10
+	sleep 5
 	go test ./e2e_tests -count=1 -coverpkg=./...
 	make stop
 
