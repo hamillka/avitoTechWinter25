@@ -37,6 +37,7 @@ jobs:
           go test ./internal/repositories/unit_tests/ -short
 
   e2e_tests:
+    name: E2E Tests
     needs: unit_tests
     runs-on: ubuntu-22.04
     services:
