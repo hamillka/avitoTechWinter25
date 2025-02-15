@@ -10,8 +10,8 @@ type TransactionsRepository struct {
 }
 
 const (
-	getOutTransactionsByUID = "SELECT * FROM transactions WHERE sender_id = $1"
-	getInTransactionsByUID  = "SELECT * FROM transactions WHERE receiver_id = $1"
+	getOutTransactionsByUID = "SELECT id, sender_id, receiver_id, amount FROM transactions WHERE sender_id = $1"
+	getInTransactionsByUID  = "SELECT id, sender_id, receiver_id, amount FROM transactions WHERE receiver_id = $1"
 )
 
 func NewTransactionsRepository(db *sqlx.DB) *TransactionsRepository {

@@ -27,7 +27,7 @@ func TestInventoryRepository_GetInventoryByUserID(t *testing.T) {
 				rows := sqlmock.NewRows([]string{"id", "user_id", "merch_id", "amount"}).
 					AddRow(1, 1, 1, 5).
 					AddRow(2, 1, 2, 3)
-				mock.ExpectQuery("SELECT \\* FROM inventory WHERE user_id = \\$1").
+				mock.ExpectQuery("SELECT id, user_id, merch_id, amount FROM inventory WHERE user_id = \\$1").
 					WithArgs(1).
 					WillReturnRows(rows)
 			},
@@ -42,7 +42,7 @@ func TestInventoryRepository_GetInventoryByUserID(t *testing.T) {
 			userID: 2,
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "user_id", "merch_id", "amount"})
-				mock.ExpectQuery("SELECT \\* FROM inventory WHERE user_id = \\$1").
+				mock.ExpectQuery("SELECT id, user_id, merch_id, amount FROM inventory WHERE user_id = \\$1").
 					WithArgs(2).
 					WillReturnRows(rows)
 			},
@@ -53,7 +53,7 @@ func TestInventoryRepository_GetInventoryByUserID(t *testing.T) {
 			name:   "Database error",
 			userID: 3,
 			mockSetup: func(mock sqlmock.Sqlmock) {
-				mock.ExpectQuery("SELECT \\* FROM inventory WHERE user_id = \\$1").
+				mock.ExpectQuery("SELECT id, user_id, merch_id, amount FROM inventory WHERE user_id = \\$1").
 					WithArgs(3).
 					WillReturnError(sql.ErrConnDone)
 			},
@@ -66,7 +66,7 @@ func TestInventoryRepository_GetInventoryByUserID(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "user_id", "merch_id", "amount"}).
 					AddRow("invalid", 4, 5, 5)
-				mock.ExpectQuery("SELECT \\* FROM inventory WHERE user_id = \\$1").
+				mock.ExpectQuery("SELECT id, user_id, merch_id, amount FROM inventory WHERE user_id = \\$1").
 					WithArgs(4).
 					WillReturnRows(rows)
 			},

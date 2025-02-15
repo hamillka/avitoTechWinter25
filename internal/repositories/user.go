@@ -14,9 +14,9 @@ type UserRepository struct {
 
 const (
 	createUser                = "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id"
-	getUserByID               = "SELECT * FROM users WHERE id = $1"
-	getUserByUsernamePassword = "SELECT * FROM users WHERE username = $1 AND password = $2"
-	getUserByUsername         = "SELECT * FROM users WHERE username = $1"
+	getUserByID               = "SELECT id, username, password, coins FROM users WHERE id = $1"
+	getUserByUsernamePassword = "SELECT id, username, password, coins FROM users WHERE username = $1 AND password = $2"
+	getUserByUsername         = "SELECT id, username, password, coins FROM users WHERE username = $1"
 	subtractCoins             = "UPDATE users SET coins = coins - $1 WHERE id = $2"
 	addCoins                  = "UPDATE users SET coins = coins + $1 WHERE id = $2"
 	addTransaction            = "INSERT INTO transactions (sender_id, receiver_id, amount) VALUES ($1, $2, $3) RETURNING id"

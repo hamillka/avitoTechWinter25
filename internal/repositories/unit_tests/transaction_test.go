@@ -26,7 +26,7 @@ func TestTransactionsRepository_GetOutTransactions(t *testing.T) {
 				rows := sqlmock.NewRows([]string{"id", "sender_id", "receiver_id", "amount"}).
 					AddRow(1, 1, 2, 100).
 					AddRow(2, 1, 3, 200)
-				mock.ExpectQuery("SELECT \\* FROM transactions WHERE sender_id = \\$1").
+				mock.ExpectQuery("SELECT id, sender_id, receiver_id, amount FROM transactions WHERE sender_id = \\$1").
 					WithArgs(1).
 					WillReturnRows(rows)
 			},
@@ -41,7 +41,7 @@ func TestTransactionsRepository_GetOutTransactions(t *testing.T) {
 			userID: 2,
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "sender_id", "receiver_id", "amount"})
-				mock.ExpectQuery("SELECT \\* FROM transactions WHERE sender_id = \\$1").
+				mock.ExpectQuery("SELECT id, sender_id, receiver_id, amount FROM transactions WHERE sender_id = \\$1").
 					WithArgs(2).
 					WillReturnRows(rows)
 			},
@@ -54,7 +54,7 @@ func TestTransactionsRepository_GetOutTransactions(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "sender_id", "receiver_id", "amount"}).
 					AddRow("invalid", 4, 5, 100)
-				mock.ExpectQuery("SELECT \\* FROM transactions WHERE sender_id = \\$1").
+				mock.ExpectQuery("SELECT id, sender_id, receiver_id, amount FROM transactions WHERE sender_id = \\$1").
 					WithArgs(4).
 					WillReturnRows(rows)
 			},
@@ -105,7 +105,7 @@ func TestTransactionsRepository_GetInTransactions(t *testing.T) {
 				rows := sqlmock.NewRows([]string{"id", "sender_id", "receiver_id", "amount"}).
 					AddRow(1, 2, 1, 100).
 					AddRow(2, 3, 1, 200)
-				mock.ExpectQuery("SELECT \\* FROM transactions WHERE receiver_id = \\$1").
+				mock.ExpectQuery("SELECT id, sender_id, receiver_id, amount FROM transactions WHERE receiver_id = \\$1").
 					WithArgs(1).
 					WillReturnRows(rows)
 			},
@@ -120,7 +120,7 @@ func TestTransactionsRepository_GetInTransactions(t *testing.T) {
 			userID: 2,
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "sender_id", "receiver_id", "amount"})
-				mock.ExpectQuery("SELECT \\* FROM transactions WHERE receiver_id = \\$1").
+				mock.ExpectQuery("SELECT id, sender_id, receiver_id, amount FROM transactions WHERE receiver_id = \\$1").
 					WithArgs(2).
 					WillReturnRows(rows)
 			},
@@ -133,7 +133,7 @@ func TestTransactionsRepository_GetInTransactions(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "sender_id", "receiver_id", "amount"}).
 					AddRow("invalid", 5, 4, 100)
-				mock.ExpectQuery("SELECT \\* FROM transactions WHERE receiver_id = \\$1").
+				mock.ExpectQuery("SELECT id, sender_id, receiver_id, amount FROM transactions WHERE receiver_id = \\$1").
 					WithArgs(4).
 					WillReturnRows(rows)
 			},
