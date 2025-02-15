@@ -10,7 +10,7 @@ type InventoryRepository struct {
 }
 
 const (
-	getUserInventory = "SELECT * FROM inventory WHERE user_id = $1"
+	getUserInventory = "SELECT id, user_id, merch_id, amount FROM inventory WHERE user_id = $1"
 )
 
 func NewInventoryRepository(db *sqlx.DB) *InventoryRepository {

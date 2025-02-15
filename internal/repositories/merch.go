@@ -13,8 +13,8 @@ type MerchRepository struct {
 }
 
 const (
-	getMerchByID   = "SELECT * FROM merch WHERE id = $1"
-	getMerchByType = "SELECT * FROM merch WHERE type = $1"
+	getMerchByID   = "SELECT id, type, cost FROM merch WHERE id = $1"
+	getMerchByType = "SELECT id, type, cost FROM merch WHERE type = $1"
 )
 
 func NewMerchRepository(db *sqlx.DB) *MerchRepository {

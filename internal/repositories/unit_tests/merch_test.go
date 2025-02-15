@@ -26,7 +26,7 @@ func TestMerchRepository_GetMerchByID(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "type", "cost"}).
 					AddRow(1, "t-shirt", 80)
-				mock.ExpectQuery("SELECT \\* FROM merch WHERE id = \\$1").
+				mock.ExpectQuery("SELECT id, type, cost FROM merch WHERE id = \\$1").
 					WithArgs(1).
 					WillReturnRows(rows)
 			},
@@ -41,7 +41,7 @@ func TestMerchRepository_GetMerchByID(t *testing.T) {
 			name:    "Record not found",
 			merchID: 999,
 			mockSetup: func(mock sqlmock.Sqlmock) {
-				mock.ExpectQuery("SELECT \\* FROM merch WHERE id = \\$1").
+				mock.ExpectQuery("SELECT id, type, cost  FROM merch WHERE id = \\$1").
 					WithArgs(999).
 					WillReturnError(sql.ErrNoRows)
 			},
@@ -52,7 +52,7 @@ func TestMerchRepository_GetMerchByID(t *testing.T) {
 			name:    "Database error",
 			merchID: 2,
 			mockSetup: func(mock sqlmock.Sqlmock) {
-				mock.ExpectQuery("SELECT \\* FROM merch WHERE id = \\$1").
+				mock.ExpectQuery("SELECT id, type, cost FROM merch WHERE id = \\$1").
 					WithArgs(2).
 					WillReturnError(sql.ErrConnDone)
 			},
@@ -102,7 +102,7 @@ func TestMerchRepository_GetMerchByType(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "type", "cost"}).
 					AddRow(1, "t-shirt", 80)
-				mock.ExpectQuery("SELECT \\* FROM merch WHERE type = \\$1").
+				mock.ExpectQuery("SELECT id, type, cost FROM merch WHERE type = \\$1").
 					WithArgs("t-shirt").
 					WillReturnRows(rows)
 			},
@@ -117,7 +117,7 @@ func TestMerchRepository_GetMerchByType(t *testing.T) {
 			name:      "Record not found",
 			merchType: "non-existent",
 			mockSetup: func(mock sqlmock.Sqlmock) {
-				mock.ExpectQuery("SELECT \\* FROM merch WHERE type = \\$1").
+				mock.ExpectQuery("SELECT id, type, cost FROM merch WHERE type = \\$1").
 					WithArgs("non-existent").
 					WillReturnError(sql.ErrNoRows)
 			},
@@ -128,7 +128,7 @@ func TestMerchRepository_GetMerchByType(t *testing.T) {
 			name:      "Database error",
 			merchType: "hoodie",
 			mockSetup: func(mock sqlmock.Sqlmock) {
-				mock.ExpectQuery("SELECT \\* FROM merch WHERE type = \\$1").
+				mock.ExpectQuery("SELECT id, type, cost FROM merch WHERE type = \\$1").
 					WithArgs("hoodie").
 					WillReturnError(sql.ErrConnDone)
 			},

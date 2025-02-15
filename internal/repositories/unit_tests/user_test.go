@@ -28,7 +28,7 @@ func TestUserRepository_GetUserByUsernamePassword(t *testing.T) {
 			mockSetup: func(mock sqlmock.Sqlmock) {
 				rows := sqlmock.NewRows([]string{"id", "username", "password", "coins"}).
 					AddRow(1, "testuser", "testpass", 1000)
-				mock.ExpectQuery("SELECT \\* FROM users WHERE username = \\$1 AND password = \\$2").
+				mock.ExpectQuery("SELECT id, username, password, coins FROM users WHERE username = \\$1 AND password = \\$2").
 					WithArgs("testuser", "testpass").
 					WillReturnRows(rows)
 			},
@@ -45,7 +45,7 @@ func TestUserRepository_GetUserByUsernamePassword(t *testing.T) {
 			username: "nonexistent",
 			password: "wrongpass",
 			mockSetup: func(mock sqlmock.Sqlmock) {
-				mock.ExpectQuery("SELECT \\* FROM users WHERE username = \\$1 AND password = \\$2").
+				mock.ExpectQuery("SELECT id, username, password, coins FROM users WHERE username = \\$1 AND password = \\$2").
 					WithArgs("nonexistent", "wrongpass").
 					WillReturnError(sql.ErrNoRows)
 			},
