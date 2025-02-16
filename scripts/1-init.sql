@@ -45,7 +45,8 @@ CREATE TABLE IF NOT EXISTS inventory
 CREATE INDEX idx_inventory_user ON inventory (user_id);
 
 INSERT INTO avito_shop_service.public.users
-VALUES (0, 'AvitoShop', 'AvitoPassword', 0);
+VALUES (0, 'AvitoShop', 'AvitoPassword', 0),
+       (105005, 'initUser', 'initUserPassword', 1000);
 
 INSERT INTO avito_shop_service.public.merch
 VALUES (1, 't-shirt', 80),

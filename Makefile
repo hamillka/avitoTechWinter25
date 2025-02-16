@@ -1,5 +1,5 @@
 APP=avito-shop-service
-.PHONY: linter
+.PHONY: linter build run stop linter units units-coverage e2e-w-coverage all_tests swag-gen load_testing
 
 build:
 	docker-compose build $(APP)
@@ -23,7 +23,7 @@ units-coverage:
 e2e-w-coverage:
 	make run
 	sleep 5
-	go test ./e2e_tests -count=1 -coverpkg=./...
+	go test ./e2e_tests -coverpkg=./...
 	make stop
 
 all_tests:
@@ -32,3 +32,9 @@ all_tests:
 
 swag-gen:
 	swag init -g ../../cmd/avito-shop-service/main.go -o ./api -d ./internal/handlers
+
+load_testing:
+	make run
+	go run ./load_testing/db_100k_users.go
+	k6 run ./load_testing/load.js
+	make stop
