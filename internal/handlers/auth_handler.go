@@ -99,7 +99,7 @@ func (ah *AuthHandler) Auth(w http.ResponseWriter, r *http.Request) {
 func createToken(username string) (string, error) {
 	payload := jwt.MapClaims{
 		"username": username,
-		"exp":      time.Now().Add(time.Hour * 8760).Unix(),
+		"exp":      time.Now().Add(time.Hour * 48).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
