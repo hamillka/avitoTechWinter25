@@ -9,4 +9,8 @@ go.work
 
 .DS_Store
 
+internal/services/unit_tests/allure-results/
 
+node_modules
+package-lock.json
+package.json

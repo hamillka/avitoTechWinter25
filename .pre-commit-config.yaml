@@ -1,0 +1,14 @@
+repos:
+  - repo: local
+    hooks:
+      - id: linter
+        name: linter
+        entry: make linter
+        language: golang
+        types: [go]
+
+      - id: tests
+        name: unit & e2e tests
+        entry: make all_tests
+        language: system
+        types: [go]
